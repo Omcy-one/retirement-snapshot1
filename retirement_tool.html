@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Retirement Snapshot</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+    h2 { color: #2e8b57; }
+    .result { background: #f0f8ff; padding: 15px; border-radius: 8px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>🌍 Retirement Snapshot</h2>
+  <label>Name: <input type="text" id="name"></label><br><br>
+  <label>Year of Birth: <input type="number" id="year"></label><br><br>
+  <label>Country/Region: <input type="text" id="region" placeholder="e.g. Nigeria"></label><br><br>
+  <button onclick="generateSnapshot()">Get My Retirement Info</button>
+
+  <div id="output" class="result"></div>
+
+  <script>
+    function generateSnapshot() {
+      const name = document.getElementById("name").value;
+      const year = parseInt(document.getElementById("year").value);
+      const region = document.getElementById("region").value || "your region";
+      const currentYear = new Date().getFullYear();
+      const age = currentYear - year;
+      const retirementAge = 66;
+      const yearsToRetire = retirementAge - age;
+      const retirementYear = year + retirementAge;
+
+      let category = "";
+      if (age < 13) category = "Child";
+      else if (age < 20) category = "Adolescent / Teen";
+      else if (age < 35) category = "Young Adult";
+      else if (age < 60) category = "Adult";
+      else category = "Senior";
+
+      const lifeExpectancy = region.toLowerCase() === "nigeria" ? 62 : 72; // rough estimate
+      const savingsEstimate = yearsToRetire > 0 ? (yearsToRetire * 100000).toLocaleString() : "already retired";
+
+      let encouragement = "";
+      if (category === "Child") encouragement = "You're still growing — enjoy the journey!";
+      else if (category === "Adolescent / Teen") encouragement = "So many possibilities ahead! 🌱";
+      else if (category === "Young Adult") encouragement = "Now’s the time to start building smart habits.";
+      else if (category === "Adult") encouragement = "You're in your stride — focus on long-term consistency.";
+      else encouragement = "You've earned rest and reflection. Keep inspiring others!";
+
+      document.getElementById("output").innerHTML = `
+        <strong>💬 ${name}, here’s your retirement info:</strong><br>
+        - Age: ${age} years old<br>
+        - Retirement Year: ${retirementYear}<br>
+        - Age Range: ${category}<br>
+        - Life Expectancy (est.): ${lifeExpectancy} years<br>
+        - Suggested Savings Goal: ₦${savingsEstimate}<br>
+        <em>💡 ${encouragement}</em>
+      `;
+    }
+  </script>
+</body>
+</html>
